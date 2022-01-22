@@ -69,13 +69,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
-  flutter_nearby_connections:
+  flutter_nearby_messages_api:
     dependency: "direct main"
     description:
-      name: flutter_nearby_connections
+      name: flutter_nearby_messages_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.1"
+    version: "0.0.8"
   flutter_test:
     dependency: "direct dev"
     description: flutter
