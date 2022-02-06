@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
+import 'package:flame/palette.dart';
 import 'package:flame/sprite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,13 +15,16 @@ enum PlayerState {
   dunkLeft,
 }
 
-class Halo extends FlameGame with KeyboardEvents {
+class Halo extends FlameGame with KeyboardEvents, HasDraggables {
   //main character
   late SpriteAnimationGroupComponent player;
 
   // player velocity
   static const int speed = 200;
   final Vector2 velocity = Vector2(0, 0);
+
+  //Joystick
+  late final JoystickComponent joystick;
 
   @override
   Future<void>? onLoad() async {
@@ -76,6 +80,17 @@ class Halo extends FlameGame with KeyboardEvents {
       size: spriteSize,
     );
 
+//Joystick
+    final knobPaint = BasicPalette.blue.withAlpha(200).paint();
+    final backgroundPaint = BasicPalette.blue.withAlpha(100).paint();
+    joystick = JoystickComponent(
+      knob: CircleComponent(radius: 30, paint: knobPaint),
+      background: CircleComponent(radius: 100, paint: backgroundPaint),
+      margin: const EdgeInsets.only(left: 40, bottom: 40),
+    );
+
+    add(joystick);
+
     //Components
     add(player);
 
@@ -89,6 +104,35 @@ class Halo extends FlameGame with KeyboardEvents {
 
     final displacement = velocity * (speed * dt);
     player.position.add(displacement);
+
+    print("vel : " + velocity.x.toString());
+
+    final direction =
+        joystick.direction.toString().replaceAll('JoystickDirection.', '');
+    print(joystick.relativeDelta);
+    if (!joystick.delta.isZero()) {
+      switch (direction) {
+        case "right":
+          player.current = PlayerState.runningRight;
+          break;
+        case "left":
+          player.current = PlayerState.runningLeft;
+          break;
+        case "idle":
+          player.current = PlayerState.idleRight;
+          break;
+      }
+    } else {
+      if (player.current == PlayerState.dunkLeft ||
+          player.current == PlayerState.idleLeft ||
+          player.current == PlayerState.runningLeft) {
+        player.current = PlayerState.idleLeft;
+      } else if (player.current == PlayerState.dunkRight ||
+          player.current == PlayerState.idleRight ||
+          player.current == PlayerState.runningRight) {
+        player.current = PlayerState.idleRight;
+      }
+    }
   }
 
   @override
