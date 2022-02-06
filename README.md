@@ -9,4 +9,8 @@
 ![adventurer-run-03](https://user-images.githubusercontent.com/52130837/152688795-dfead6bc-bcdc-4f30-86bc-7bca739c7706.png)
 
 
-A platformer game build using flutter🤍Flame!
+A platformer game build using Flutter🤍Flame!
+
+https://jcupzz.github.io/project-HALO/
+
+Note: It's a never ending on going dev!
