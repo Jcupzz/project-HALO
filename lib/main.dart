@@ -12,6 +12,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GameWidget(game: game);
+    return GameWidget(
+      game: game,
+      backgroundBuilder: (context) {
+        return Container(
+          color: Colors.grey[900],
+        );
+      },
+    );
   }
 }

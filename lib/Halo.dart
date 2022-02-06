@@ -5,6 +5,7 @@ import 'package:flame/palette.dart';
 import 'package:flame/sprite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:project_halo/actions/hud.dart';
 
 enum PlayerState {
   idleRight,
@@ -15,16 +16,15 @@ enum PlayerState {
   dunkLeft,
 }
 
-class Halo extends FlameGame with KeyboardEvents, HasDraggables {
+class Halo extends FlameGame with KeyboardEvents, HasTappables {
   //main character
-  late SpriteAnimationGroupComponent player;
+  static late SpriteAnimationGroupComponent player;
 
   // player velocity
   static const int speed = 200;
-  final Vector2 velocity = Vector2(0, 0);
+  static Vector2 velocity = Vector2(0, 0);
 
   //Joystick
-  late final JoystickComponent joystick;
 
   @override
   Future<void>? onLoad() async {
@@ -80,20 +80,54 @@ class Halo extends FlameGame with KeyboardEvents, HasDraggables {
       size: spriteSize,
     );
 
-//Joystick
-    final knobPaint = BasicPalette.blue.withAlpha(200).paint();
-    final backgroundPaint = BasicPalette.blue.withAlpha(100).paint();
-    joystick = JoystickComponent(
-      knob: CircleComponent(radius: 30, paint: knobPaint),
-      background: CircleComponent(radius: 100, paint: backgroundPaint),
-      margin: const EdgeInsets.only(left: 40, bottom: 40),
+//Hud Buttons
+
+    // final arrowsSpriteSheet = SpriteSheet(
+    //     image: await images.load('arrows.png'), srcSize: Vector2(32, 32));
+    // final buttonSize = Vector2.all(80);
+
+    // final leftButton = HudButtonComponent(
+    //   button: SpriteComponent(
+    //     sprite: arrowsSpriteSheet.getSpriteById(0),
+    //     size: buttonSize,
+    //   ),
+    //   margin: const EdgeInsets.only(
+    //     left: 80,
+    //     bottom: 60,
+    //   ),
+    //   onPressed: player.flipHorizontally,
+    // );
+
+    // huds.button = SpriteComponent(
+    //   sprite: arrowsSpriteSheet.getSpriteById(1),
+    //   size: buttonSize,
+    // );
+
+    // huds.margin = const EdgeInsets.only(
+    //   left: 200,
+    //   bottom: 60,
+    // );
+
+    final arrowsSpriteSheet = SpriteSheet(
+        image: await images.load('arrows.png'), srcSize: Vector2(32, 32));
+    final buttonSize = Vector2.all(80);
+    final but = SpriteComponent(
+      sprite: arrowsSpriteSheet.getSpriteById(1),
+      size: buttonSize,
     );
 
-    add(joystick);
+    final huds = Huds(
+        const EdgeInsets.only(
+          left: 200,
+          bottom: 120,
+        ),
+        Vector2(80, 80),
+        but);
 
     //Components
+    add(huds);
     add(player);
-
+    // add(leftButton);
     return super.onLoad();
   }
 
@@ -104,35 +138,6 @@ class Halo extends FlameGame with KeyboardEvents, HasDraggables {
 
     final displacement = velocity * (speed * dt);
     player.position.add(displacement);
-
-    print("vel : " + velocity.x.toString());
-
-    final direction =
-        joystick.direction.toString().replaceAll('JoystickDirection.', '');
-    print(joystick.relativeDelta);
-    if (!joystick.delta.isZero()) {
-      switch (direction) {
-        case "right":
-          player.current = PlayerState.runningRight;
-          break;
-        case "left":
-          player.current = PlayerState.runningLeft;
-          break;
-        case "idle":
-          player.current = PlayerState.idleRight;
-          break;
-      }
-    } else {
-      if (player.current == PlayerState.dunkLeft ||
-          player.current == PlayerState.idleLeft ||
-          player.current == PlayerState.runningLeft) {
-        player.current = PlayerState.idleLeft;
-      } else if (player.current == PlayerState.dunkRight ||
-          player.current == PlayerState.idleRight ||
-          player.current == PlayerState.runningRight) {
-        player.current = PlayerState.idleRight;
-      }
-    }
   }
 
   @override
