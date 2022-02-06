@@ -4,9 +4,7 @@
         android:label="project_halo"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
-            <meta-data
-            android:name="com.google.android.nearby.messages.API_KEY"
-            android:value="AIzaSyCjqpLyjgmKUi6DW_y2xH4_3KJ-F3EoMiM" />
+       
         <activity
             android:name=".MainActivity"
             android:exported="true"
