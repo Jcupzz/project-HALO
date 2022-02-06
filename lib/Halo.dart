@@ -58,7 +58,7 @@ class Halo extends FlameGame with KeyboardEvents, HasTappables {
         row: 0, stepTime: 0.15, from: 5, to: 7);
 
     final attack_01_Right = playerSpriteSheet_Right.createAnimation(
-        row: 6, stepTime: 0.1, from: 0, to: 4);
+        row: 6, stepTime: 0.1, from: 0, to: 4, loop: false);
 
     //Left
     final runLeft_PlayerAnim = playerSpriteSheet_Left.createAnimation(
@@ -71,7 +71,7 @@ class Halo extends FlameGame with KeyboardEvents, HasTappables {
         row: 0, stepTime: 0.15, from: 0, to: 2);
 
     final attack_01_Left = playerSpriteSheet_Left.createAnimation(
-        row: 6, stepTime: 0.15, from: 0, to: 4);
+        row: 6, stepTime: 0.1, from: 0, to: 4, loop: false);
 
     // Animation Groups
 
@@ -87,6 +87,11 @@ class Halo extends FlameGame with KeyboardEvents, HasTappables {
         PlayerState.attack_01_Left: attack_01_Left,
       },
       current: PlayerState.idleRight,
+      // removeOnFinish: {
+      //   PlayerState.attack_01_Left: true,
+      //   PlayerState.attack_01_Right: true,
+      //   PlayerState.idleLeft: false
+      // },
       position: Vector2(size.x / 2, size.y / 2),
       size: spriteSize,
     );
@@ -117,8 +122,8 @@ class Halo extends FlameGame with KeyboardEvents, HasTappables {
 
     final rightButton = Huds(
         const EdgeInsets.only(
-          left: 70,
-          bottom: 120,
+          left: 90,
+          bottom: 80,
         ),
         Vector2(60, 60),
         rightButtonSpriteComponent,
@@ -126,8 +131,8 @@ class Halo extends FlameGame with KeyboardEvents, HasTappables {
 
     final leftButton = Huds(
         const EdgeInsets.only(
-          left: 30,
-          bottom: 120,
+          left: 20,
+          bottom: 80,
         ),
         Vector2(60, 60),
         leftButtonSpriteComponent,
@@ -135,8 +140,8 @@ class Halo extends FlameGame with KeyboardEvents, HasTappables {
 
     final attackButton_01 = Huds(
         const EdgeInsets.only(
-          right: 100,
-          bottom: 120,
+          right: 20,
+          bottom: 80,
         ),
         Vector2(60, 60),
         attack_01_ButtonSpriteComponent,
