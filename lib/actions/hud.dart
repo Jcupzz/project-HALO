@@ -9,7 +9,8 @@ class Huds extends HudButtonComponent {
   EdgeInsets margins;
   Vector2 sizes;
   SpriteComponent but;
-  Huds(this.margins, this.sizes, this.but)
+  bool isLeft;
+  Huds(this.margins, this.sizes, this.but, this.isLeft)
       : super(
           margin: margins,
           size: sizes,
@@ -19,20 +20,26 @@ class Huds extends HudButtonComponent {
   @override
   bool onTapDown(TapDownInfo info) {
     // TODO: implement onTapDown
-
-    Halo.velocity.x = 1;
-    Halo.player.current = PlayerState.runningRight;
-    print(info.toString());
+    if (isLeft) {
+      Halo.velocity.x = -1;
+      Halo.player.current = PlayerState.runningLeft;
+    } else {
+      Halo.velocity.x = 1;
+      Halo.player.current = PlayerState.runningRight;
+    }
     return super.onTapDown(info);
   }
 
   @override
   bool onTapUp(TapUpInfo info) {
     // TODO: implement onTapUp
-
-    Halo.velocity.x = 0;
-
-    Halo.player.current = PlayerState.idleRight;
+    if (isLeft) {
+      Halo.velocity.x = 0;
+      Halo.player.current = PlayerState.idleLeft;
+    } else {
+      Halo.velocity.x = 0;
+      Halo.player.current = PlayerState.idleRight;
+    }
     print(info.toString());
     return super.onTapUp(info);
   }

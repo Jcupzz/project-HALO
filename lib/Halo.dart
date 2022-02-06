@@ -111,21 +111,37 @@ class Halo extends FlameGame with KeyboardEvents, HasTappables {
     final arrowsSpriteSheet = SpriteSheet(
         image: await images.load('arrows.png'), srcSize: Vector2(32, 32));
     final buttonSize = Vector2.all(80);
-    final but = SpriteComponent(
+    final rightButtonSpriteComponent = SpriteComponent(
       sprite: arrowsSpriteSheet.getSpriteById(1),
       size: buttonSize,
     );
 
-    final huds = Huds(
+    final leftButtonSpriteComponent = SpriteComponent(
+      sprite: arrowsSpriteSheet.getSpriteById(0),
+      size: buttonSize,
+    );
+
+    final rightButton = Huds(
         const EdgeInsets.only(
           left: 200,
           bottom: 120,
         ),
         Vector2(80, 80),
-        but);
+        rightButtonSpriteComponent,
+        false);
+
+    final leftButton = Huds(
+        const EdgeInsets.only(
+          left: 100,
+          bottom: 120,
+        ),
+        Vector2(80, 80),
+        leftButtonSpriteComponent,
+        true);
 
     //Components
-    add(huds);
+    add(leftButton);
+    add(rightButton);
     add(player);
     // add(leftButton);
     return super.onLoad();
