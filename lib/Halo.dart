@@ -24,7 +24,7 @@ class Halo extends FlameGame with KeyboardEvents, HasTappables {
   static const int speed = 200;
   static Vector2 velocity = Vector2(0, 0);
 
-  //Joystick
+  //Joysticks
 
   @override
   Future<void>? onLoad() async {
@@ -79,34 +79,6 @@ class Halo extends FlameGame with KeyboardEvents, HasTappables {
       position: Vector2(size.x / 2, size.y / 2),
       size: spriteSize,
     );
-
-//Hud Buttons
-
-    // final arrowsSpriteSheet = SpriteSheet(
-    //     image: await images.load('arrows.png'), srcSize: Vector2(32, 32));
-    // final buttonSize = Vector2.all(80);
-
-    // final leftButton = HudButtonComponent(
-    //   button: SpriteComponent(
-    //     sprite: arrowsSpriteSheet.getSpriteById(0),
-    //     size: buttonSize,
-    //   ),
-    //   margin: const EdgeInsets.only(
-    //     left: 80,
-    //     bottom: 60,
-    //   ),
-    //   onPressed: player.flipHorizontally,
-    // );
-
-    // huds.button = SpriteComponent(
-    //   sprite: arrowsSpriteSheet.getSpriteById(1),
-    //   size: buttonSize,
-    // );
-
-    // huds.margin = const EdgeInsets.only(
-    //   left: 200,
-    //   bottom: 60,
-    // );
 
     final arrowsSpriteSheet = SpriteSheet(
         image: await images.load('arrows.png'), srcSize: Vector2(32, 32));
@@ -189,7 +161,7 @@ class Halo extends FlameGame with KeyboardEvents, HasTappables {
         }
       } else {
         //TODO:
-
+        // Nothing to do!
       }
     } else if (event.logicalKey == LogicalKeyboardKey.keyS) {
       velocity.y = isKeyDown ? 1 : 0;
