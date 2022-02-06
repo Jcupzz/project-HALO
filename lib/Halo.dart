@@ -6,13 +6,10 @@ import 'package:project_halo/actions/Idle_Right.dart';
 class Halo extends FlameGame {
   @override
   Future<void>? onLoad() async {
-    // TODO: implement onLoad
-
-    print(size.x);
-    print(size.x / 2);
-
+    //Instances
     final idleRight = IdleRight(Vector2(size.x / 2, size.y / 2));
 
+    //Components
     add(idleRight);
 
     return super.onLoad();
