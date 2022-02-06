@@ -26,7 +26,7 @@ class IdleRight extends SpriteAnimationComponent {
 
     final IdleRight_01_PlayerAnim_Comp = SpriteAnimationComponent(
       animation: IdleRight_01_PlayerAnim,
-      position: Vector2(pos.x / 2, pos.y / 2),
+      position: Vector2(pos.x, pos.y),
       size: spriteSize,
     );
 
