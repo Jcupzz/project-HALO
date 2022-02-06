@@ -11,9 +11,11 @@ enum PlayerState {
   idleRight,
   runningRight,
   dunkRight,
+  attack_01_Right,
   idleLeft,
   runningLeft,
   dunkLeft,
+  attack_01_Left,
 }
 
 class Halo extends FlameGame with KeyboardEvents, HasTappables {
@@ -54,6 +56,10 @@ class Halo extends FlameGame with KeyboardEvents, HasTappables {
 
     final dunkRight_PlayerAnim = playerSpriteSheet_Right.createAnimation(
         row: 0, stepTime: 0.15, from: 5, to: 7);
+
+    final attack_01_Right = playerSpriteSheet_Right.createAnimation(
+        row: 6, stepTime: 0.1, from: 0, to: 4);
+
     //Left
     final runLeft_PlayerAnim = playerSpriteSheet_Left.createAnimation(
         row: 1, stepTime: 0.1, from: 0, to: 5);
@@ -64,6 +70,9 @@ class Halo extends FlameGame with KeyboardEvents, HasTappables {
     final dunkLeft_PlayerAnim = playerSpriteSheet_Left.createAnimation(
         row: 0, stepTime: 0.15, from: 0, to: 2);
 
+    final attack_01_Left = playerSpriteSheet_Left.createAnimation(
+        row: 6, stepTime: 0.15, from: 0, to: 4);
+
     // Animation Groups
 
     player = SpriteAnimationGroupComponent<PlayerState>(
@@ -71,9 +80,11 @@ class Halo extends FlameGame with KeyboardEvents, HasTappables {
         PlayerState.runningRight: runRight_PlayerAnim,
         PlayerState.idleRight: idleRight_PlayerAnim,
         PlayerState.dunkRight: dunkRight_PlayerAnim,
+        PlayerState.attack_01_Right: attack_01_Right,
         PlayerState.runningLeft: runLeft_PlayerAnim,
         PlayerState.idleLeft: idleLeft_PlayerAnim,
         PlayerState.dunkLeft: dunkLeft_PlayerAnim,
+        PlayerState.attack_01_Left: attack_01_Left,
       },
       current: PlayerState.idleRight,
       position: Vector2(size.x / 2, size.y / 2),
@@ -81,8 +92,14 @@ class Halo extends FlameGame with KeyboardEvents, HasTappables {
     );
 
     final arrowsSpriteSheet = SpriteSheet(
-        image: await images.load('arrows.png'), srcSize: Vector2(32, 32));
-    final buttonSize = Vector2.all(80);
+        image: await images.load('arrows.png'),
+        srcSize: Vector2(32, 32)); //Arrows
+    final attacksSpriteSheet = SpriteSheet(
+        image: await images.load('attacks.png'),
+        srcSize: Vector2(32, 32)); //Attacks
+
+    final buttonSize = Vector2.all(60);
+
     final rightButtonSpriteComponent = SpriteComponent(
       sprite: arrowsSpriteSheet.getSpriteById(1),
       size: buttonSize,
@@ -93,27 +110,42 @@ class Halo extends FlameGame with KeyboardEvents, HasTappables {
       size: buttonSize,
     );
 
+    final attack_01_ButtonSpriteComponent = SpriteComponent(
+      sprite: attacksSpriteSheet.getSpriteById(0),
+      size: buttonSize,
+    );
+
     final rightButton = Huds(
         const EdgeInsets.only(
-          left: 200,
+          left: 70,
           bottom: 120,
         ),
-        Vector2(80, 80),
+        Vector2(60, 60),
         rightButtonSpriteComponent,
-        false);
+        "Right");
 
     final leftButton = Huds(
         const EdgeInsets.only(
-          left: 100,
+          left: 30,
           bottom: 120,
         ),
-        Vector2(80, 80),
+        Vector2(60, 60),
         leftButtonSpriteComponent,
-        true);
+        "Left");
+
+    final attackButton_01 = Huds(
+        const EdgeInsets.only(
+          right: 100,
+          bottom: 120,
+        ),
+        Vector2(60, 60),
+        attack_01_ButtonSpriteComponent,
+        "Attack_01");
 
     //Components
     add(leftButton);
     add(rightButton);
+    add(attackButton_01);
     add(player);
     // add(leftButton);
     return super.onLoad();
